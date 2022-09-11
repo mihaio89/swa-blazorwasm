@@ -1,0 +1,43 @@
+@page "/todo_v2"
+
+<PageTitle>To do</PageTitle>
+
+<h1>To do  (@todos.Count(todo => !todo.done))</h1>
+
+<ul>
+    @foreach (var todo in todos)
+    {
+        <li>
+            <input type="checkbox" @bind="todo.done" />
+            <input @bind="todo.title" />
+            <input @bind="todo.details" />
+            <input @bind="todo.url" />
+        </li>
+    }
+</ul>
+
+<input placeholder="something to do" @bind="newTitle" />
+<input placeholder="additional details" @bind="newDetails" />
+<input placeholder="url" @bind="newUrl" />
+<button @onclick="add">Add</button>
+
+@code {
+    private List<todo> todos = new();
+    private string? newTitle;
+    private string? newDetails;
+    private string? newUrl;
+
+    private void add()
+    {
+        if (!string.IsNullOrWhiteSpace(newTitle))
+        {
+            todos.Add(new todo { title = newTitle, details = newDetails, url = newUrl  });
+            // url = new Uri(url) }); of url of type System.Uri
+      
+           
+            newTitle = string.Empty;
+            newDetails = string.Empty;
+            newUrl = string.Empty;
+        }
+    }
+}
